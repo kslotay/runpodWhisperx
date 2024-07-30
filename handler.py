@@ -71,15 +71,15 @@ def handler(event):
 
     try:
         # 1. Transcribe with original whisper (batched)
-        model = whisperx.load_model("small", device, compute_type=compute_type, language="en")
+        model = whisperx.load_model("large-v2", device, compute_type=compute_type, language="en")
         # Load the audio
         audio = whisperx.load_audio(audio_input)
         # Transcribe the audio
         result = model.transcribe(audio, batch_size=batch_size, language=language_code, print_progress=True)
 
-        # 2. Align whisper output
-        model_a, metadata = whisperx.load_align_model(language_code=language_code, device=device)
-        result = whisperx.align(result["segments"], model_a, metadata, audio, device)
+        # # 2. Align whisper output
+        # model_a, metadata = whisperx.load_align_model(language_code=language_code, device=device)
+        # result = whisperx.align(result["segments"], model_a, metadata, audio, device)
         print(result["segments"])
 
         # after alignment
