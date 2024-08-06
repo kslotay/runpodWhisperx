@@ -7,8 +7,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /app
 
 # ARGs and ENVs
-ARG WHISPER_MODEL=small
-ARG LANG=en
+ARG WHISPER_MODEL=large-v2
+# ARG LANG=en
 ARG TORCH_HOME=/cache/torch
 ARG HF_HOME=/cache/huggingface
 
@@ -16,7 +16,7 @@ ARG HF_HOME=/cache/huggingface
 ENV TORCH_HOME=${TORCH_HOME}
 ENV HF_HOME=${HF_HOME}
 ENV WHISPER_MODEL=${WHISPER_MODEL}
-ENV LANG=${LANG}
+# ENV LANG=${LANG}
 
 # Set LD_LIBRARY_PATH for library location (if still necessary)
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/
@@ -64,9 +64,9 @@ RUN pip install --no-cache-dir /code
 RUN python -c 'from whisperx.vad import load_vad_model; load_vad_model("cpu");' && \
     python -c 'import faster_whisper; model = faster_whisper.WhisperModel("'${WHISPER_MODEL}'")'
 
-# Preload align model
-COPY load_align_model.py .
-RUN python load_align_model.py ${LANG}
+# # Preload align model
+# COPY load_align_model.py .
+# RUN python load_align_model.py ${LANG}
 
 # Copy and install application-specific requirements
 COPY requirements.txt /app/requirements.txt
