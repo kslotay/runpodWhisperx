@@ -65,8 +65,8 @@ RUN python -c 'from whisperx.vad import load_vad_model; load_vad_model("cpu");' 
     python -c 'import faster_whisper; model = faster_whisper.WhisperModel("'${WHISPER_MODEL}'")'
 
 # # Preload align model
-# COPY load_align_model.py .
-# RUN python load_align_model.py ${LANG}
+COPY load_align_model.py .
+RUN python load_align_model.py ${LANG}
 
 # Copy and install application-specific requirements
 COPY requirements.txt /app/requirements.txt
